@@ -43,7 +43,7 @@ export default function Post({ postData }) {
 export async function getStaticPaths() {
   // `getAllPostIds` returns an array of path params for all posts,
   // e.g. [{ params: { id: 'first-post' } }, ...]
-  const paths = getAllPostIds();
+  const paths =  await getAllPostIds();
   return {
     // Pre-render these paths at build time
     paths,
