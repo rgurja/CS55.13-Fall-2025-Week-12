@@ -1,69 +1,71 @@
+//import fs from 'fs';
+//import path from 'path';
+
+// Before using got, run: npm install got@9.6.0
 import got from 'got';
 
-// API endpoint
+//const dataDir = path.join(process.cwd(), 'data');
 const dataURL = "https://dev-srjc-fall-2025-cs55-13.pantheonsite.io/wp-json/twentytwentyone-child/v1/latest-posts/1";
 
-// store fetched posts so all functions can use them
-let cachedPosts = [];
-
-/**
- * Fetch and sort posts
- */
 export async function getSortedPostsData() {
+  // const filePath = path.join(dataDir, 'posts.json');
+  // const jsonString = fs.readFileSync(filePath, 'utf8');
+  let jsonString;
   try {
-    const response = await got(dataURL);
-    const jsonObj = JSON.parse(response.body);
-
-    // Save to global cache so other functions can use it
-    cachedPosts = jsonObj;
-
-    // Sort alphabetically
-    cachedPosts.sort((a, b) =>
-      a.post_title.localeCompare(b.post_title)
-    );
-
-    return cachedPosts;
+    //next line uses got synchronously to retrive via https our json data from wp site
+    jsonString = await got(dataURL);
+    console.log(jsonString.body);
   } catch (error) {
-    console.error("Fetch error:", error);
-    cachedPosts = [];
-    return [];
+    jsonString.body = '[]';
+    console.log(error);
   }
+
+  // convert string from file into JSON array object
+  //const jsonObj = JSON.parse(jsonString);
+   const jsonObj = JSON.parse(jsonString.body);
+  
+
+   ///use map() on array to extract just id property into  new array of object values
+  jsonObj.sort(function (a, b) {
+    return a.post_title.localeCompare(b.post_title);
+});
 }
 
-/**
- * Generate dynamic route params
- */
 export async function getAllPostIds() {
-  if (cachedPosts.length === 0) {
-    await getSortedPostsData(); // ensure data exists
-  }
-
-  return cachedPosts.map((post) => ({
-    params: {
-      id: post.ID.toString(),
-    },
-  }));
+ // const fileNames = fs.readdirSync(postsDirectory);
+  //return fileNames.map((fileName) => {
+  return jsonObj.map((post) => {
+    return {
+      params: {
+        id: post.ID.toString(),
+        name: post.post_title,
+      },
+    };
+  });
 }
 
-/**
- * Get a single post's data
- */
 export async function getPostData(id) {
-  if (cachedPosts.length === 0) {
-    await getSortedPostsData();
+  //const fullPath = path.join(postsDirectory, `${id}.md`);
+  //const fileContents = fs.readFileSync(fullPath, 'utf8');
+
+  // Use gray-matter to parse the post metadata section
+  //  const matterResult = matter(fileContents);
+
+  // Use remark to convert markdown into HTML string
+ // const processedContent = await remark()
+    //.use(html)
+   // .process(matterResult.content);
+  //const contentHtml = processedContent.toString();
+
+  // Combine the data with the id and contentHtml
+   let jsonString;
+  try {
+    //next line uses got synchronously to retrive via https our json data from wp site
+    jsonString = await got(dataURL);
+    console.log(jsonString.body);
+  } catch (error) {
+    jsonString.body = '[]';
+    console.log(error);
   }
-
-  const post = cachedPosts.find((p) => p.ID.toString() === id);
-
-  if (!post) {
-    return { id, contentHtml: "<p>Post not found</p>" };
-  }
-
-  // WordPress already returns HTML content
-  return {
-    id,
-    contentHtml: post.post_content || "",
-    title: post.post_title,
-    date: post.post_date,
-  };
+  
 }
