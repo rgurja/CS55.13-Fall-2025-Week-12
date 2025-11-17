@@ -16,12 +16,12 @@ export default function Post({ postData }) {
     <Layout>
       {/* Set the HTML document title for this post */}
       <Head>
-        <title>{postData.title}</title>
+        <title>{postData.post_title}</title>
       </Head>
 
       <article>
         {/* Post title */}
-        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+        <h1 className={utilStyles.headingXl}>{postData.post_title}</h1>
 
       
 
@@ -54,6 +54,7 @@ export async function getStaticProps({ params }) {
   // Fetch the post content for the given `id` param at build time.
   // `getPostData` typically reads the markdown file and converts it to HTML.
   const postData = await getPostData(params.id);
+  console.log(postData);
   return {
     props: {
       postData,
