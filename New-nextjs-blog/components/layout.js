@@ -51,7 +51,7 @@ export default function Layout({ children, home }) {
               />
             </Link>
             <h2 className={utilStyles.headingLg}>
-              <Link href="/" className={utilStyles.colorInherit}>
+              <Link href="https://dev-srjc-fall-2025-cs55-13.pantheonsite.io/2025/11/01/hello-world/" className={utilStyles.colorInherit}>
                 {name}
               </Link>
             </h2>

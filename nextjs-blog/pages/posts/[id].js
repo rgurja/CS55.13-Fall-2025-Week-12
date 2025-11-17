@@ -23,10 +23,7 @@ export default function Post({ postData }) {
         {/* Post title */}
         <h1 className={utilStyles.headingXl}>{postData.title}</h1>
 
-        {/* Post date formatted by the `Date` component */}
-        <div className={utilStyles.lightText}>
-          <Date dateString={postData.date} />
-        </div>
+      
 
         {/*
           Render HTML content produced by a Markdown -> HTML converter.
