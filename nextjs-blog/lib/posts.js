@@ -22,6 +22,7 @@ export async function getSortedPostsData() {
 
   // convert string from file into JSON array object
   //const jsonObj = JSON.parse(jsonString);
+
    const jsonObj = JSON.parse(jsonString.body);
   
 
@@ -34,6 +35,20 @@ export async function getSortedPostsData() {
 export async function getAllPostIds() {
  // const fileNames = fs.readdirSync(postsDirectory);
   //return fileNames.map((fileName) => {
+    let jsonString;
+  try {
+    //next line uses got synchronously to retrive via https our json data from wp site
+    jsonString = await got(dataURL);
+    console.log(jsonString.body);
+  } catch (error) {
+    jsonString.body = '[]';
+    console.log(error);
+  }
+
+  // convert string from file into JSON array object
+  //const jsonObj = JSON.parse(jsonString);
+
+   const jsonObj = JSON.parse(jsonString.body);
   return jsonObj.map((post) => {
     return {
       params: {
