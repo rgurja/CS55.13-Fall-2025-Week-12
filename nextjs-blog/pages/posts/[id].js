@@ -16,14 +16,12 @@ export default function Post({ postData }) {
     <Layout>
       {/* Set the HTML document title for this post */}
       <Head>
-        <title>{postData.post_title}</title>
+        <title>{postData.title.rendered}</title>
       </Head>
 
       <article>
         {/* Post title */}
-        <h1 className={utilStyles.headingXl}>{postData.post_title}</h1>
-
-      
+        <h1 className={utilStyles.headingXl}>{postData.title.rendered}</h1>
 
         {/*
           Render HTML content produced by a Markdown -> HTML converter.
@@ -40,7 +38,7 @@ export default function Post({ postData }) {
 export async function getStaticPaths() {
   // `getAllPostIds` returns an array of path params for all posts,
   // e.g. [{ params: { id: 'first-post' } }, ...]
-  const paths = await getAllPostIds();
+  const paths =  await getAllPostIds();
   return {
     // Pre-render these paths at build time
     paths,
@@ -54,7 +52,6 @@ export async function getStaticProps({ params }) {
   // Fetch the post content for the given `id` param at build time.
   // `getPostData` typically reads the markdown file and converts it to HTML.
   const postData = await getPostData(params.id);
-  console.log(postData);
   return {
     props: {
       postData,

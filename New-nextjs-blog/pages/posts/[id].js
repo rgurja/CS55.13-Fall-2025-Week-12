@@ -16,17 +16,12 @@ export default function Post({ postData }) {
     <Layout>
       {/* Set the HTML document title for this post */}
       <Head>
-        <title>{postData.title}</title>
+        <title>{postData.title.rendered}</title>
       </Head>
 
       <article>
         {/* Post title */}
-        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
-
-        {/* Post date formatted by the `Date` component */}
-        <div className={utilStyles.lightText}>
-          <Date dateString={postData.date} />
-        </div>
+        <h1 className={utilStyles.headingXl}>{postData.title.rendered}</h1>
 
         {/*
           Render HTML content produced by a Markdown -> HTML converter.
